@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Run Resonance Medicine Protocol</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fdfdfd;
+      margin: 40px;
+      color: #222;
+    }
+    h1, h2 {
+      color: #004080;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+    .code-block {
+      background-color: #f0f0f0;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: monospace;
+    }
+    select, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    #output {
+      white-space: pre-wrap;
+      background-color: #eaeaea;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Resonance Medicine Protocol Launcher</h1>
+  <p><strong>Author:</strong> Nicolas of family Brett</p>
+  <p><strong>License:</strong> MIT — Open Source Sovereignty</p>
+
+  <div class="section">
+    <h2>Step 1: Select Your Operating System</h2>
+    <select id="os-select">
+      <option value="">-- Choose OS --</option>
+      <option value="Windows">Windows</option>
+      <option value="macOS">macOS</option>
+      <option value="Linux">Linux</option>
+      <option value="Mobile">Mobile (limited)</option>
+    </select>
+    <div id="os-instructions" class="code-block"></div>
+  </div>
+
+  <div class="section">
+    <h2>Step 2: Launch Simulation</h2>
+    <button onclick="runSimulation()">Run Protocol</button>
+    <div id="output"></div>
+  </div>
+
+  <script>
+    const instructions = {
+      Windows: "Install Python 3.8+, then clone the GitHub repo:\n> git clone https://github.com/nbbulk-dotcom/ResonanceMedicine\nRun: python p10.py",
+      macOS: "Use Homebrew to install Python:\n> brew install python\nThen clone and run:\n> git clone https://github.com/nbbulk-dotcom/ResonanceMedicine\n> python3 p10.py",
+      Linux: "Use apt or yum to install Python:\n> sudo apt install python3\nClone repo:\n> git clone https://github.com/nbbulk-dotcom/ResonanceMedicine\n> python3 p10.py",
+      Mobile: "Use browser-based simulation below. Full features limited."
+    };
+
+    document.getElementById("os-select").addEventListener("change", function() {
+      const os = this.value;
+      document.getElementById("os-instructions").textContent = instructions[os] || "";
+    });
+
+    async function runSimulation() {
+      const pyodide = await loadPyodide();
+      const code = `
+import numpy as np
+tensor = np.zeros((4,4,4))
+tensor += 3.2 * 1.2e9 * 0.003 / (3.2 + 1e-9)
+for _ in range(200):
+    tensor -= np.abs(np.sin(tensor / 0.0001)) * 1.0
+    if np.max(tensor) < 1e-9: break
+print("Collapse Achieved:", np.max(tensor) < 1e-9)
+print("Final Max Value:", np.max(tensor))
+      `;
+      let result = await pyodide.runPythonAsync(code);
+      document.getElementById("output").textContent = result;
+    }
+  </script>
+
+</body>
+</html>
