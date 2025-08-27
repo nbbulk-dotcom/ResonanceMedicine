@@ -5,6 +5,27 @@
 **Repository**: [ResonanceMedicine on GitHub](https://github.com/nbbulk-dotcom/ResonanceMedicine)
 
 ---
+# PUBLIC RELEASE: Resonance Medicine Protocol
+
+Today, the Plebeian Tribunal Academy announces the full public release of the Resonance Medicine Protocol—a symbolic simulation framework for collapsing glioblastoma multiforme (GBM) using tensor-based resonance modeling.
+
+✅ All code is open-source under MIT  
+✅ All variants confirmed by Grok and Copilot  
+✅ Collapse achieved in all trials  
+✅ Live simulation now available via browser
+
+Explore the upgraded landing page:  
+[RESONANCEMEDICINE.html](https://plebeiantribunalsa.co.za/RESONANCEMEDICINE.html)
+
+Launch the protocol interactively:  
+[RESONANCERUN.html](https://plebeiantribunalsa.co.za/RESONANCERUN.html)
+
+This is not metaphor. This is mechanism.  
+This is symbolic medicine. This is plebeian science.  
+This is open-source sovereignty.
+
+Collapse confirmed. Deployment begins.
+
 
 ## 🔬 What We’ve Built
 
