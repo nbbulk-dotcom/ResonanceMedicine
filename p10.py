@@ -1,77 +1,127 @@
 # Resonance Medicine: Symbolic Collapse of Glioblastoma
 
 ## Author
-Nicolas of family Brett  
-Writing Assistant: Microsoft Copilot AI
+# Nicolas of family Brett
+# Writing Assistant: Microsoft Copilot AI
 
 ## Purpose
-This repository contains a transdisciplinary simulation protocol for collapsing glioblastoma multiforme (GBM) using symbolic resonance modeling. Each phase and variant integrates biological realism—noise, gradient, heterogeneity, occlusion, diffusion, immune evasion, metastasis, electric field modulation, checkpoint reactivation, and CAR-T infusion.
+# This script executes the full symbolic collapse protocol for glioblastoma multiforme (GBM),
+# integrating biological realism across ten phases: noise, gradient, occlusion, suppression,
+# metastasis, electric modulation, checkpoint reactivation, CAR-T infusion, and recurrence prediction.
 
 ## License
-Released under the MIT License. Use, replicate, refine, and deploy freely.
+# MIT License — Open-source, sovereign deployment encouraged.
 
 ## Live Page
-[Resonance Medicine — Plebeian Tribunal South Africa](https://plebeiantribunalsa.co.za/RESONANCEMEDICINE.html)
+# https://plebeiantribunalsa.co.za/RESONANCEMEDICINE.html
 
----
+import numpy as np
+from scipy.ndimage import gaussian_filter
 
-## 🔬 Simulation Parameters
+# === Simulation Parameters ===
+volume = 3.2                  # cm³
+density = 1.2e9               # cells/cm³
+energy = 0.003                # joules
 
-| Parameter           | Value                     |
-|--------------------|---------------------------|
-| Tumor Volume       | 3.2 cm³                   |
-| Cell Density       | 1.2 × 10⁹ cells/cm³       |
-| Metabolic Energy   | 0.003 J                   |
-| Collapse Threshold | < 1e-9                    |
-| Final Max/Min      | 0.0 (clamped)             |
+# === Phase 1: Seed Tensor ===
+def seed_tumor_tensor(volume_cm3, cell_density, energy_joules):
+    tensor = np.zeros((4, 4, 4))
+    resonance_value = volume_cm3 * cell_density * energy_joules
+    tensor += resonance_value / (volume_cm3 + 1e-9)
+    return tensor
 
----
+# === Phase 2: Noise Injection ===
+def add_noise(tensor, std_dev=0.01):
+    return tensor + np.random.normal(0, std_dev, tensor.shape)
 
-## 🧬 Protocol Variants
+# === Phase 3: Normalization ===
+def normalize_tensor(tensor):
+    return tensor / (np.max(tensor) + 1e-9)
 
-### ✅ Phase 1–5: Foundational Collapse
-- `v1.py`: Basic tensor collapse
-- `v2.py`: Noise + normalization
-- `v3.py`: Spatial gradient + iterative correction
-- `v4.py`: Vascular occlusion
-- `v5.py`: Diffusion smoothing + clamping
+# === Phase 4: Gradient Shaping ===
+def add_spatial_gradient(tensor):
+    x, y, z = np.indices(tensor.shape)
+    center = np.array(tensor.shape) / 2
+    distance = np.sqrt((x - center[0])**2 + (y - center[1])**2 + (z - center[2])**2)
+    gradient = 1 - (distance / np.max(distance))
+    return tensor * gradient
 
-### ✅ Variant E–G: Biological Realism
-- `vE.py`: Multi-frequency harmonic modulation
-- `vF.py`: Adaptive frequency sweep (optional)
-- `vG.py`: Adaptive immunity targeting high-density voxels
+# === Phase 5: Vascular Occlusion ===
+def apply_vascular_occlusion(tensor, rate=0.2):
+    mask = np.random.choice([1.0, 0.1], size=tensor.shape, p=[1 - rate, rate])
+    return tensor * mask
 
-### ✅ Variant H–J: Immune Evolution
-- `vH.py`: Stochastic resistance evolution
-- `vI.py`: Checkpoint modulation (PD-1/PD-L1 inhibition)
-- `vJ.py`: CAR-T cell infusion simulation
+# === Phase 6: Immune Suppression ===
+def apply_immune_suppression(tensor, rate=0.4, factor=0.5):
+    mask = np.random.choice([1.0, factor], size=tensor.shape, p=[1 - rate, rate])
+    return tensor * mask
 
-### ✅ Phase 6–10: Full Integration
-- `p6.py`: Immune suppression modeling
-- `p7.py`: Metastatic spread simulation
-- `p8.py`: Tumor Treating Fields (TTF) electric modulation
-- `p9.py`: Recurrence prediction via DTI connectomics
-- `v10.py`: Full protocol integration
+# === Phase 7: Metastatic Spread ===
+def simulate_metastatic_spread(tensor, spread_rate=0.1, seed_threshold=0.05):
+    new_tensor = np.copy(tensor)
+    for i in range(tensor.shape[0]):
+        for j in range(tensor.shape[1]):
+            for k in range(tensor.shape[2]):
+                if tensor[i, j, k] > seed_threshold:
+                    for dx in [-1, 0, 1]:
+                        for dy in [-1, 0, 1]:
+                            for dz in [-1, 0, 1]:
+                                ni, nj, nk = i + dx, j + dy, k + dz
+                                if 0 <= ni < tensor.shape[0] and 0 <= nj < tensor.shape[1] and 0 <= nk < tensor.shape[2]:
+                                    new_tensor[ni, nj, nk] += tensor[i, j, k] * spread_rate
+    return new_tensor
 
----
+# === Phase 8: TTF Electric Modulation ===
+def apply_ttf_modulation(tensor, frequency=200e3, amplitude=1.0, cycles=10):
+    for _ in range(cycles):
+        field = amplitude * np.sin(2 * np.pi * frequency * np.random.rand(*tensor.shape))
+        tensor -= np.abs(field) * 0.01
+    return tensor
 
-## 📊 Visuals Included
-- Tensor initialization and collapse curves
-- Immunity/resistance masks (pre/post)
-- Metastatic spread overlays
-- Checkpoint reactivation maps
-- CAR-T targeting diagrams
-- Full protocol flowchart
+# === Phase 9: Checkpoint Reactivation ===
+def apply_checkpoint_modulation(tensor, reactivation_rate=0.5):
+    suppression_mask = np.random.choice([0, 1], size=tensor.shape, p=[0.5, 0.5])
+    reactivated = suppression_mask * reactivation_rate
+    tensor *= (1 - reactivated)
+    return tensor
 
----
+# === Phase 10: CAR-T Infusion ===
+def apply_cart_infusion(tensor, threshold=0.6, kill_factor=0.4):
+    mask = tensor > threshold
+    tensor[mask] *= (1 - kill_factor)
+    return tensor
 
-## 🧾 Abstract
-This protocol models GBM as a symbolic tensor field, integrating biological realism across ten phases. Collapse is achieved in all variants via **multi-frequency harmonic modulation**, simulating therapeutic precision across clinical domains. The protocol is released under MIT license and is fully deployable via the Plebeian Tribunal Academy and GitHub repository.
+# === Phase 11: DTI Recurrence Mapping ===
+def apply_dti_connectomics(tensor, spread_factor=0.05):
+    connectivity = np.random.rand(*tensor.shape)
+    return tensor + (connectivity * spread_factor)
 
----
+# === Final Collapse ===
+def collapse_tensor_multifreq(tensor, energy_inputs=[0.0001, 0.0005, 0.001], scale=1.0, iterations=200, sigma=1.0):
+    for _ in range(iterations):
+        for freq in energy_inputs:
+            tensor -= np.abs(np.sin(tensor / freq)) * scale
+        tensor = gaussian_filter(tensor, sigma=sigma)
+        tensor = np.clip(tensor, 0, None)
+        if np.max(tensor) < 1e-9:
+            break
+    return tensor
 
-## 🧠 Execution Notes
-All variants confirmed by Grok:
-- Collapse Achieved: ✅ True
-- Final Max/Min: 0.0 (clamped)
-- Iterations: 1–200 depending on resistance and spread
+# === Execution Pipeline ===
+tensor = seed_tumor_tensor(volume, density, energy)
+tensor = add_noise(tensor)
+tensor = normalize_tensor(tensor)
+tensor = add_spatial_gradient(tensor)
+tensor = apply_vascular_occlusion(tensor)
+tensor = apply_immune_suppression(tensor)
+tensor = simulate_metastatic_spread(tensor)
+tensor = apply_ttf_modulation(tensor)
+tensor = apply_checkpoint_modulation(tensor)
+tensor = apply_cart_infusion(tensor)
+tensor = apply_dti_connectomics(tensor)
+tensor = collapse_tensor_multifreq(tensor)
+
+# === Output ===
+print("Full protocol executed.")
+print("Collapse Achieved:", np.max(tensor) < 1e-9)
+print("Final Max Value:", np.max(tensor))
