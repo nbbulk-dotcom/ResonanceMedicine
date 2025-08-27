@@ -14,3 +14,5 @@ To demonstrate that tumors are measurable resonance aberrations—and can be col
 
 ## License
 Released freely to humanity. Use, replicate, refine, and deploy.
+## Simulation Page
+View the full resonance oncology simulation: [ResonanceScript.html](ResonanceScript.html)
